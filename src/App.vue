@@ -8,7 +8,7 @@
     </div> -->
     <router-view></router-view>
     <ul  class='giveawaylist'>
-      <li v-for='giveaway in list' :key="giveaway.id">
+      <li v-for='giveaway in giveaways' :key="giveaway.id">
         <div class='giveawayCard'>
           <h2>{{ giveaway.title }}</h2>
           <!-- <p>{{giveaway.description}}</p>
@@ -39,22 +39,22 @@ export default {
   name: 'App',
   components: {
   },
-  created() {
-    this.fetchData()
+  mounted() {
+    this.$store.dispatch('fetchData')
+    
   },
   data: function() {
-    return { message: 'hey there', list: [] }
+    return { 
+      message: 'hey there', 
+    }
+  },
+  computed: {
+    giveaways() {
+      return this.$store.state.giveaways
+    }
   },
   methods: {
-    async fetchData() {
-      try {
-        const response = await fetch('http://localhost:7555/')
-        const payload = await response.json();
-        this.list = payload.store;
-      } catch (err) {
-        throw new Error('Something went south')
-      }
-    },
+    
   }
 }
 </script>
@@ -73,8 +73,14 @@ ul {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(4,1fr);
-
+  margin: auto;
+  width: 90%;
+  padding:0;
   gap:1em;
+}
+
+li {
+  margin:auto;
 }
 
 span {
