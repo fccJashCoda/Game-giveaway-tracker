@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <h1>Ongoing Giveaways</h1>
+
     <router-link to='/foo' :msg="message">go to foo</router-link>
     <!-- <router-view to='/foo'>test</router-view> -->
     <!-- <div class='links'> 
@@ -7,37 +9,32 @@
 
     </div> -->
     <router-view></router-view>
-    <ul  class='giveawaylist'>
+    <h2 v-if="loading">Loading</h2>
+    <div v-else>
+      <GiveawayList v-bind:giveaways='giveaways' />
+
+    </div>
+    <!-- <ul v-else class='giveawaylist'>
       <li v-for='giveaway in giveaways' :key="giveaway.id">
         <div class='giveawayCard'>
           <h2>{{ giveaway.title }}</h2>
-          <!-- <p>{{giveaway.description}}</p>
-          <span>id:{{giveaway.id}}</span>
-          <span>platforms:{{giveaway.platforms}}</span>
-          <span>status:{{giveaway.status}}</span>
-          <span>users:{{giveaway.users}}</span>
-          <span>end_date:{{giveaway.end_date}}</span>
-          <span>image:{{giveaway.image}}</span>
-          <span>gp_url:{{giveaway.gamerpower_url}}</span>
-          <span>instructions:{{giveaway.instructions}}</span>
-          <span>ogv:{{giveaway.open_giveaway}}</span>
-          <span>ogvurl:{{giveaway.open_giveaway_url}}</span>
-          <span>pub_date:{{giveaway.published_date}}</span>
-          <span>thumbnail:{{giveaway.thumbnail}}</span>
-          <span>type:{{giveaway.type}}</span>
-          <span>worth:{{giveaway.worth}}</span> -->
+          <router-link :to="'/giveaway/' + giveaway.id">Go to {{ giveaway.id }}</router-link>
           <img v-bind:src="giveaway.thumbnail"/>
+          <button v-on:click='getGiveaway(giveaway.id)'>log giveaway</button>
         </div>
       </li>
-    </ul>
+    </ul> -->
+      <h2 v-if="error">{{ error }}</h2>
   </div>
 </template>
 
 <script>
+import GiveawayList from './components/GiveawayList.vue';
 
 export default {
   name: 'App',
   components: {
+    GiveawayList,
   },
   mounted() {
     this.$store.dispatch('fetchData')
@@ -51,11 +48,15 @@ export default {
   computed: {
     giveaways() {
       return this.$store.state.giveaways
-    }
-  },
-  methods: {
+    },
+    loading() {
+      return this.$store.state.loading
+    },
+    error() {
+      return this.$store.state.error
+    },
     
-  }
+  },
 }
 </script>
 
@@ -81,6 +82,8 @@ ul {
 
 li {
   margin:auto;
+  width: 100%;
+  height: 100%;
 }
 
 span {
@@ -88,7 +91,7 @@ span {
 }
 
 .giveawayCard {
-  width: 25em;
+  /* cursor: pointer; */
   background: #2c3e50;
   padding: 1em;
   box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
