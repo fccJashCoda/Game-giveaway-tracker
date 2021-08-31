@@ -2,43 +2,29 @@
   <div id="app">
     <h1>Ongoing Giveaways</h1>
 
+    <router-link to='/' >Home</router-link>
+    
     <router-link to='/foo' :msg="message">go to foo</router-link>
-    <!-- <router-view to='/foo'>test</router-view> -->
-    <!-- <div class='links'> 
-      <router-link v-for="give in list" active-class="is-active" :to="{name: 'Giveaway', params: {id: give.id}}" :key="give.id">{{give.id}}</router-link>
-
-    </div> -->
     <router-view></router-view>
     <h2 v-if="loading">Loading</h2>
-    <div v-else>
-      <GiveawayList v-bind:giveaways='giveaways' />
-
-    </div>
-    <!-- <ul v-else class='giveawaylist'>
-      <li v-for='giveaway in giveaways' :key="giveaway.id">
-        <div class='giveawayCard'>
-          <h2>{{ giveaway.title }}</h2>
-          <router-link :to="'/giveaway/' + giveaway.id">Go to {{ giveaway.id }}</router-link>
-          <img v-bind:src="giveaway.thumbnail"/>
-          <button v-on:click='getGiveaway(giveaway.id)'>log giveaway</button>
-        </div>
-      </li>
-    </ul> -->
-      <h2 v-if="error">{{ error }}</h2>
+    <h2 v-if="error">{{ error }}</h2>
+    <footer>
+      <div>
+        <p>some footer copypasta</p>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script>
-import GiveawayList from './components/GiveawayList.vue';
 
 export default {
   name: 'App',
   components: {
-    GiveawayList,
   },
   mounted() {
     this.$store.dispatch('fetchData')
-    
+    console.log('App mounted at: ', new Date().toLocaleTimeString())
   },
   data: function() {
     return { 
@@ -61,6 +47,10 @@ export default {
 </script>
 
 <style>
+html, body {
+  margin: 0;
+  padding:0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -73,11 +63,11 @@ export default {
 ul {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  /* grid-template-columns: repeat(4,1fr); */
   margin: auto;
   width: 90%;
   padding:0;
-  gap:1em;
+  gap:1em 0.5em;
 }
 
 li {
@@ -91,10 +81,7 @@ span {
 }
 
 .giveawayCard {
-  /* cursor: pointer; */
-  background: #2c3e50;
-  padding: 1em;
-  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+  text-align: start;
 }
 
 img {
@@ -107,5 +94,26 @@ img {
 
 .is-active {
   color: red;
+}
+footer,header {
+  background: #333;
+  color: #fff;
+  padding: 6em;
+}
+
+@media (min-width: 800px) {
+  ul {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+@media (min-width: 900px) {
+  ul {
+    grid-template-columns: repeat(3,1fr);
+  }
+}
+@media (min-width: 1440px) {
+  ul {
+    grid-template-columns: repeat(6,1fr);
+  }
 }
 </style>

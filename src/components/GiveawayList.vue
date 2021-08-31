@@ -2,37 +2,42 @@
   <div>
     <h1>Giveaways</h1>
     <ul>
-      <!-- <li v-for='giveaway in giveaways' :key="giveaway.id">
-        <h3>{{ giveaway.title }}</h3>
-        <Giveaway v-bind:giveaway='giveaway' />
-      </li> -->
       <li v-for='giveaway in giveaways' :key="giveaway.id">
         <div class='giveawayCard'>
-          <h2>{{ giveaway.title }}</h2>
-          <router-link :to="'/giveaway/' + giveaway.id">Go to {{ giveaway.id }}</router-link>
           <img v-bind:src="giveaway.thumbnail"/>
-          <button v-on:click='getGiveaway(giveaway.id)'>log giveaway</button>
+          <h2>{{ giveaway.title }}</h2>
+          <p>{{ giveaway.description }}</p>
+          <router-link :to="'/giveaway/' + giveaway.id">Go to {{ giveaway.id }}</router-link>
         </div>
       </li>
     </ul>
     
-    <!-- {{ this.giveaways }} -->
   </div>
 </template>
 
 <script>
-  // import Giveaway from './Giveaway.vue'
-
   export default {
     name: 'GiveawayList',
-    components: {
-      // Giveaway
+    methods: {
+      getGiveaway(id) {
+        console.log('giveaway ', this.$store.getters.getGiveaway(id))
+        return id
+      }
     },
     mounted() {
-        console.log(this.giveaways)
+      this.$store.dispatch('fetchData')
     },
-    props: {
-      giveaways: Array
-    }
+    computed: {
+      giveaways() {
+        return this.$store.state.giveaways
+      },
+      loading() {
+        return this.$store.state.loading
+      },
+      error() {
+        return this.$store.state.error
+      },
+    },
+
   }
 </script>

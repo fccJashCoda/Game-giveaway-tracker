@@ -12,7 +12,10 @@ export default new Vuex.Store({
   },
   getters: {
     getGiveaway: (state) => (id) => {
-      return state.giveaways.find((giveaway) => giveaway.id === id);
+      return state.giveaways.find((giveaway) => giveaway.id === +id);
+    },
+    getLoading: (state) => () => {
+      return state.loading;
     },
   },
   mutations: {
@@ -31,6 +34,10 @@ export default new Vuex.Store({
       context.commit('setLoading');
       context.commit('setError');
       try {
+        /*
+            using an expres app to host the api while working on the project, 
+            actual api: https://www.gamerpower.com/api/giveaways 
+        */
         const response = await axios.get('http://localhost:7555');
         const data = await response.data.store;
         context.commit('setGiveaways', data);
@@ -40,5 +47,6 @@ export default new Vuex.Store({
         context.commit('setLoading');
       }
     },
+    // tellmemore(context) {},
   },
 });
