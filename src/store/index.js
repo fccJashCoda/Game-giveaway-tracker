@@ -47,6 +47,5 @@ export default new Vuex.Store({
         context.commit('setLoading');
       }
     },
-    // tellmemore(context) {},
   },
 });

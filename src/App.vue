@@ -4,7 +4,6 @@
 
     <router-link to='/' >Home</router-link>
     
-    <router-link to='/foo' :msg="message">go to foo</router-link>
     <router-view></router-view>
     <h2 v-if="loading">Loading</h2>
     <h2 v-if="error">{{ error }}</h2>
@@ -28,7 +27,6 @@ export default {
   },
   data: function() {
     return { 
-      message: 'hey there', 
     }
   },
   computed: {

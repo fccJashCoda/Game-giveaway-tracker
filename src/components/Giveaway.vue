@@ -1,9 +1,6 @@
 <template>
   <div>
-    <!-- <div class='give' v-if='giveaway'> -->
-    <!-- <div class='give' v-if='getGiveaway'> -->
-      <button @click='spillthebeans'></button>
-    <div class='give' v-if='getGiveaway'>
+    <div class='give' v-if='giveaway'>
       <h1>{{ this.giveaway.title }}</h1>
       <img v-bind:src="this.giveaway.image"/>
       <p>{{this.giveaway.description}}</p>
@@ -32,22 +29,17 @@ export default {
   name: 'Giveaway',
   data() {
     return {
-      giveaway: {} 
+      giveaway: this.getGiveaway || null
     }
   },
   beforeMount() {
-    console.log('beforeMount')
-    console.log(this.$route.params)
-    console.log(this.giveaway)
-    console.log(this.$store.getters.getGiveaway(this.$route.params.id))
     this.$store.dispatch('fetchData')
   },
   mounted() {
-    console.log('Mount')
-    console.log(this.$route.params)
-    console.log(this.$store.getters.getGiveaway(this.$route.params.id))
     this.giveaway = this.$store.getters.getGiveaway(this.$route.params.id)
-    console.log(this.giveaway)
+    if (!this.giveaway) {
+      this.$router.go(-1)
+    }
   },
   computed: {
     getGiveaway() {
@@ -57,6 +49,11 @@ export default {
   methods: {
     spillthebeans() {
       console.log(this.$store.getters.getGiveaway(this.$route.params.id))
+    },
+    goHome() {
+      this.$router.go(-1)
+      console.log(this.$router)
+      console.log(this.$router.getRoutes())
     }
   }
 }
