@@ -7,6 +7,7 @@
           <img v-bind:src="giveaway.thumbnail"/>
           <h2>{{ giveaway.title }}</h2>
           <p>{{ giveaway.description }}</p>
+          <logos :platformList="giveaway.platforms"></logos>
           <router-link :to="'/giveaway/' + giveaway.id">Go to {{ giveaway.id }}</router-link>
         </div>
       </li>
@@ -16,8 +17,13 @@
 </template>
 
 <script>
+  import Logos from './Logos.vue'
+
   export default {
     name: 'GiveawayList',
+    components: {
+      Logos
+    },
     methods: {
       getGiveaway(id) {
         console.log('giveaway ', this.$store.getters.getGiveaway(id))
@@ -26,6 +32,7 @@
     },
     mounted() {
       this.$store.dispatch('fetchData')
+      console.log(this.giveaways)
     },
     computed: {
       giveaways() {
