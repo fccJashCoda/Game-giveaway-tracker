@@ -4,22 +4,24 @@
       <h1>{{ this.giveaway.title }}</h1>
       <img v-bind:src="this.giveaway.image"/>
       <p>{{this.giveaway.description}}</p>
-      <span>id: {{this.giveaway.id}}</span>
-      <span>platforms: {{this.giveaway.platforms}}</span>
-      <span>status: {{this.giveaway.status}}</span>
-      <span>users: {{this.giveaway.users}}</span>
-      <span>end_date: {{this.giveaway.end_date}}</span>
-      <span>image: {{this.giveaway.image}}</span>
-      <span>gp_url: {{this.giveaway.gamerpower_url}}</span>
-      <span>instructions: {{this.giveaway.instructions}}</span>
-      
-      <!-- <span>ogv: {{this.giveaway.open_this.giveaway}}</span> -->
-      <!-- <span>ogvurl: {{this.giveaway.open_this.giveaway_url}}</span> -->
 
-      <!-- <span>pub_date: {{this.giveaway.published_date}}</span>
-      <span>thumbnail: {{this.giveaway.thumbnail}}</span>
+      <div>
+        <span>Giveaway start: {{this.giveaway.published_date}}</span>
+        <span>Giveaway end: {{this.giveaway.end_date}}</span>
+      </div>
+
+      <span>platforms: {{this.giveaway.platforms}}</span>
+      <span>Status: {{this.giveaway.status}}</span>
+
       <span>type: {{this.giveaway.type}}</span>
-      <span>worth: {{this.giveaway.worth}}</span> -->
+      <span>worth: {{this.giveaway.worth}}</span>
+      <ul>
+        <li 
+          v-for="instruction in splitInstructions" 
+          :key='instruction'>
+          {{ instruction }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -44,6 +46,9 @@ export default {
   computed: {
     getGiveaway() {
       return this.$store.getters.getGiveaway(this.$route.params.id)
+    },
+    splitInstructions() {
+      return this.giveaway.instructions.split('\r\n')
     }
   },
   methods: {
@@ -54,7 +59,7 @@ export default {
       this.$router.go(-1)
       console.log(this.$router)
       console.log(this.$router.getRoutes())
-    }
+    },
   }
 }
 </script>
@@ -66,6 +71,10 @@ export default {
   }
   img {
     width: 100%;
+  }
+
+  ul {
+    display: block;
   }
 </style>
 

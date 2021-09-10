@@ -3,13 +3,15 @@
     <h1>Giveaways</h1>
     <ul>
       <li v-for='giveaway in giveaways' :key="giveaway.id">
-        <div class='giveawayCard'>
-          <img v-bind:src="giveaway.thumbnail"/>
-          <h2>{{ giveaway.title }}</h2>
-          <p>{{ giveaway.description }}</p>
-          <logos :platformList="giveaway.platforms"></logos>
-          <router-link :to="'/giveaway/' + giveaway.id">Go to {{ giveaway.id }}</router-link>
-        </div>
+        <router-link :to="'/giveaway/' + giveaway.id">
+          <div class='giveawayCard'>
+            <img v-bind:src="giveaway.thumbnail"/>
+            <h2>{{ giveaway.title }}</h2>
+            <p>{{ limitDescription(giveaway.description) }}</p>
+            <logos :platformList="giveaway.platforms"></logos>
+            <!-- <router-link :to="'/giveaway/' + giveaway.id">Go to {{ giveaway.id }}</router-link> -->
+          </div>
+        </router-link>
       </li>
     </ul>
     
@@ -28,6 +30,9 @@
       getGiveaway(id) {
         console.log('giveaway ', this.$store.getters.getGiveaway(id))
         return id
+      },
+      limitDescription(desc) {
+        return desc.slice(0, 250).trim() + '...'
       }
     },
     mounted() {
@@ -48,3 +53,11 @@
 
   }
 </script>
+
+<style scoped>
+
+  a {
+    color: #ccc;
+    text-decoration: none;
+  }
+</style>
